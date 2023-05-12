@@ -1,5 +1,6 @@
 import { lazy, useEffect, useState } from "react";
-import { getRequest } from "../utils/APIendpoints";
+import { useNavigate } from "react-router-dom";
+import { getRequest, apiUrl } from "../../utils/APIendpoints";
 const cards = [
   {
     title: "EXPLORE THE WORLD",
@@ -43,17 +44,19 @@ const reviews = [
   },
 ];
 
-const TourCard = lazy(() => import("./TourCard"));
-
+const TourSection = lazy(() => import("../reuseableComponents/TourSection"));
+const ContactSection = lazy(()=>import('../reuseableComponents/ContactSection'))
 const Home = () => {
   const [tours, setTours] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getTours = () => {
-      getRequest("http://localhost:4000/tours?limit=3", setTours);
+      getRequest(`${apiUrl}tours?limit=3`, setTours);
     };
-    getTours()
+    getTours();
   }, []);
+
   const Hero = () => {
     return (
       <section className="hero-main flex flex-col justify-center items-center gap-10 bg-gradient-to-br from-green-400 to-blue-500 text-center ">
@@ -63,7 +66,7 @@ const Home = () => {
         <p className="text-xl lg:text-2xl text-white tracking-[6px] md:tracking-[16px] font-semibold">
           WHERE LIFE HAPPENS
         </p>
-        <button className="bg-white text-blue-500 rounded-full py-3 px-6 mt-8 hover:bg-[#93ffcd] hover:shadow-lg transition-all duration-300 ease-in-out">
+        <button className="bg-white text-blue-500 rounded-full py-3 px-6 mt-8 hover:bg-[#93ffcd] hover:shadow-lg transition-all duration-300 ease-in-out" onClick={()=>navigate('/tours')}>
           DISCOVER OUR TOURS
         </button>
       </section>
@@ -183,157 +186,17 @@ const Home = () => {
           </div>
         </div>
         <ContactSection />
-        <Footer />
       </div>
     );
   };
 
-  const ContactSection = () => {
-    return (
-      <div className="contact-section">
-        <div className="image-card">
-          <div className="w-full h-full md:w-[50%] relative z-10 flex flex-col justify-center items-center gap-8">
-            <h1 className="text-[--h1-color] md:text-[36px] text-[20px] font-semibold tracking-[2px] md:tracking-[5px]">
-              START BOOKING NOW
-            </h1>
-            <form className="flex flex-col items-center gap-6 px-4">
-              <input
-                type="text"
-                className="h-[50px] rounded-[4px] outline-none p-5 text-[16px] text-[#686868]"
-                placeholder="Enter your full name"
-              />
-              <input
-                type="email"
-                className="h-[50px] rounded-[4px] outline-none p-5 text-[16px] text-[#686868]"
-                placeholder="Enter your email"
-              />
-              <input
-                type="phone"
-                className="h-[50px] rounded-[4px] outline-none p-5 text-[16px] text-[#686868]"
-                placeholder="Enter your number"
-              />
-              <div className="flex flex-col md:flex-row gap-1 ">
-                <label className="label p-1 flex gap-2">
-                  <input type="radio" name="tour" checked />
-                  <span />
-                  Small tour group
-                </label>
-                <label className="label p-1 flex gap-2">
-                  <input type="radio" name="tour" />
-                  <span />
-                  Large tour group
-                </label>
-              </div>
-              <button className="submit-btn w-[80%] text-[#e0e0e0] bg-[#707070] p-5 py-3 rounded-md">
-                {`Submit ->`}
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const Footer = () => {
-    return (
-      <footer className="flex justify-evenly md:p-7 p-3 footer bg-[#202020] gap-2 md:gap-10 ">
-        <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 border-r-2 px-2 md:px-4">
-          <img
-            src="src/assets/logo1.webp"
-            className="w-[100px] md:w-[200px]"
-            alt="logo"
-          />
-        </a>
-        <p className="text-[12px] md:text-sm text-gray-500  flex items-center md:border-l-2 md:border-r-2 md:px-4">
-          Copyright © by Rohit
-          <span className="hidden md:flex pl-1">
-            {" "}
-            Tomar. You are 100% allowed to use this webpage, but NOT to claim it
-            as your own design.
-          </span>
-        </p>
-        <span className="flex items-center border-l-2 px-2 md:px-4">
-          <a className="text-gray-500">
-            <svg
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-4 h-4 md:w-5 md:h-5"
-              viewBox="0 0 24 24"
-            >
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-            </svg>
-          </a>
-          <a className="ml-3 text-gray-500">
-            <svg
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-4 h-4 md:w-5 md:h-5"
-              viewBox="0 0 24 24"
-            >
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-            </svg>
-          </a>
-          <a className="ml-3 text-gray-500">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="w-4 h-4 md:w-5 md:h-5"
-              viewBox="0 0 24 24"
-            >
-              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-            </svg>
-          </a>
-          <a className="ml-3 text-gray-500">
-            <svg
-              fill="currentColor"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="0"
-              className="w-4 h-4 md:w-5 md:h-5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="none"
-                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
-              ></path>
-              <circle cx="4" cy="4" r="2" stroke="none"></circle>
-            </svg>
-          </a>
-        </span>
-      </footer>
-    );
-  };
-  console.log(tours)
-
-  const TourSection = () => {
-    return (
-      <div className="tour-cont z-10">
-        <h1 className="tracking-[3px] text-center md:tracking-[6px] font-semibold">
-          MOST POPULAR TOURS
-        </h1>
-        <ul className="flex justify-evenly flex-wrap gap-4 gap-y-12 mt-10">
-          {tours.map((each)=><TourCard key={each.id} {...each} />)}
-        </ul>
-      </div>
-    );
-  };
-  
 
   return (
     <div className="flex flex-col gap-[40px] md:gap-[70px] bg-[#e6e6e6]">
       <Hero />
       <About />
       <Details />
-      <TourSection />
+      <TourSection tours={tours} heading='MOST POPULAR TOURS' />
       <Reviews />
     </div>
   );

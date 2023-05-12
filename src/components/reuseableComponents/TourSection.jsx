@@ -1,49 +1,48 @@
-const TourCard = (props) => {
-  const {
-    name,
-    duration,
-    summary,
-    imageCover,
-    difficulty,
-    startLocation,
-    locations,
-    maxGroupSize,
-    price,
-    ratingsAverage,
-    ratingsQuantity,
-  } = props;
+import React from "react";
+import { useNavigate} from "react-router-dom"
+import monthYearString from "./randomMonth";
 
-  const randomNum = Math.floor(Math.random() * 5) + 1;
-  let nextMonthDate = new Date(
-    new Date().setMonth(new Date().getMonth() + randomNum)
-  );
+const TourSection = (props)=>{
+  const {tours, heading} = props
+  const navigate = useNavigate()
 
-  // Get month and year string in "June 2021" format
-  let monthYearString = nextMonthDate.toLocaleString("default", {
-    month: "long",
-    year: "numeric",
-  });
+  const TourCard = (props) => {
+    const {
+      id,
+      name,
+      duration,
+      summary,
+      imageCover,
+      difficulty,
+      startLocation,
+      locations,
+      maxGroupSize,
+      price,
+      ratingsAverage,
+      ratingsQuantity,
+    } = props;
 
-  const icons = [
-    {
-      title: startLocation.description,
-      icon: "/src/assets/location.png",
-    },
-    {
-      title: monthYearString,
-      icon: "/src/assets/schedule.png",
-    },
-    {
-      title: `${locations.length} stops`,
-      icon: "/src/assets/flag.png",
-    },
-    {
-      title: `${maxGroupSize} people`,
-      icon: "/src/assets/groups.png",
-    },
-  ];
+  
+    const icons = [
+      {
+        title: startLocation.description,
+        icon: "/src/assets/location.png",
+      },
+      {
+        title: monthYearString,
+        icon: "/src/assets/schedule.png",
+      },
+      {
+        title: `${locations.length} stops`,
+        icon: "/src/assets/flag.png",
+      },
+      {
+        title: `${maxGroupSize} people`,
+        icon: "/src/assets/groups.png",
+      },
+    ];
 
-  return (
+    return(
     <li className="tour-card list-type-none h-[550px] w-[340px] rounded-sm bg-[#fff]">
       <div className="tour-card-image-section relative">
         <img src={imageCover} />
@@ -57,8 +56,8 @@ const TourCard = (props) => {
             ${price}.99
           </h1>
           <span className="text-[#5a5a5a] text-[10px] font- font-semibold flex items-center gap-1">
-            <img src="src/assets/star.png" className="w-4" alt="" />
-            <h1 className="text-[14px] flex mt-[3px]">
+            <img src="src/assets/star.png" className="w-4" alt="rating stars" />
+            <h1 className="text-[12px] flex mt-[3px]">
               {`${ratingsAverage}`.length === 3
                 ? ratingsAverage
                 : `${ratingsAverage}.0`}
@@ -93,7 +92,11 @@ const TourCard = (props) => {
             </span>
           ))}
         </ul>
-        <button className="w-full bg-[#0ac587] hover:bg-[#2fdfa2e8] transition-[background-color] mt-2 py-2 rounded-sm text-[14px] font-semibold tracking-[2px] text-[#ffffff]">
+        <button className="w-full bg-[#0ac587] hover:bg-[#2fdfa2e8] transition-[background-color] mt-2 py-2 rounded-sm text-[14px] font-semibold tracking-[2px] text-[#ffffff]"
+        onClick={()=>{
+          navigate(`/tours/${id}`)
+        }}
+        >
           DETAILS
         </button>
       </div>
@@ -101,4 +104,18 @@ const TourCard = (props) => {
   );
 };
 
-export default TourCard;
+  return (
+    <div className="tour-cont z-10">
+      <h1 className="tracking-[3px] text-center md:tracking-[6px] font-semibold">
+        {heading}
+      </h1>
+      <ul className="flex justify-evenly flex-wrap gap-4 gap-y-12 mt-10">
+        {tours.map((each) => (
+          <TourCard key={each.id} {...each} />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TourSection

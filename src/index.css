@@ -15,6 +15,14 @@
 :root {
   --bg-color: #89ff89;
   --h1-color: #049440;
+  --bg-gradient: linear-gradient(5deg, #81fda68f, #50ffb67e);
+  --contact-bg:linear-gradient(
+    to right,
+    #10ffa3,
+    #4ae791,
+    #00ffc8,
+    #01ecd8
+  );
 }
 
 button {
@@ -30,10 +38,70 @@ button {
 
 /* NavBar */
 
+.button-three {
+  --button-color: #ffffff;
+  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+  top: 10%;
+  right: 20px;
+}
+.button-three .line {
+  transition: 0.5s stroke-dasharray ease-in-out,
+    0.5s stroke-dashoffset ease-in-out,
+    0.5s rotate ease-in-out,
+    0.5s translate ease-in-out;
+  stroke-dasharray: 100 69 100 1000;
+  transform-origin: center;
+  translate: 0 10px;
+}
+.button-three[aria-expanded="true"] .line {
+  stroke-dasharray: 100 162 100 1000;
+  stroke-dashoffset: -166;
+  translate: -30px -4px;
+  rotate: 0.125turn;
+}
+
+
+.mobile-ham{
+  position: absolute;
+  inset: 0 0 -90vh 0;
+  overflow: hidden;
+  background: linear-gradient(
+    144.39deg,
+    rgba(1, 12, 36, 0.96),
+  );
+  backdrop-filter: blur(20px);
+}
+
+.mobile-ham[aria-expanded="true"]{
+  animation: slide-in 0.6s ease-in-out forwards;
+}
+
+.mobile-ham[aria-expanded="false"]{
+  animation: slide-out 0.6s ease-out forwards;
+}
+
+
+@keyframes slide-in {
+  0%{
+    transform: translateX(100vh);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out {
+  100%{
+    transform: translateX(100vh);
+  }
+}
+
 .navbar {
-  position: sticky;
-  /* width: 100vw; */
+  position: fixed;
   z-index: 10;
+  width: 100%;
+  z-index: 20;
 }
 
 .navbar .button span {
@@ -45,10 +113,6 @@ button {
 .navbar ul li {
   transition: color 160ms, font-weight 160ms;
 }
-.navbar ul li:hover {
-  color: white;
-  font-weight: 600;
-}
 
 .login-btn {
   border: 2px solid var(--bg-color);
@@ -58,11 +122,12 @@ button {
   transition: scale 0.3s ease-in-out;
   box-shadow: 0 2px 10px 2px #40ff1a25;
 }
-.login-btn:hover {
+.login-btn:hover, .login-btn-active {
   scale: 1.02;
   border: 2px solid #d3fdd3;
   color: #cdfac9;
 }
+
 
 /* #Home Section*/
 
@@ -389,20 +454,26 @@ button {
 }
 
 .contact-section {
-  height: 130vh;
-  background-image: linear-gradient(to right, #10ffa3, #4ae791, #00ffc8, #01ecd8 );
-  padding: 130px 100px;
+  height: 100vh;
+  background-image: linear-gradient(
+    to right,
+    #10ffa3,
+    #4ae791,
+    #00ffc8,
+    #01ecd8
+  );
+  padding: 65px 100px;
+  background-position: left;
   background-size: 400%;
   position: relative;
-  animation:background-animation 10s infinite alternate;
+  animation: background-animation 10s infinite alternate;
 }
 
-
 @keyframes background-animation {
-  0%{
+  0% {
     background-position: left;
   }
-  100%{
+  100% {
     background-position: right;
   }
 }
@@ -458,31 +529,6 @@ button {
   }
 }
 
-input[type="radio"] {
-  opacity: 0;
-  width: 0%;
-}
-.label {
-  color: #575757;
-  font-size: 15px;
-  font-weight: 600;
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.label > span {
-  width: 15px;
-  height: 15px;
-  background: transparent;
-  border-radius: 50%;
-  border: 3px solid rgb(55, 190, 139);
-  transition: 200ms background-color ease-in-out, 200ms scale ease-in-out;
-}
-.label input:checked ~ span {
-  background: #e9e9e9;
-  scale: 1.4;
-}
 .submit-btn {
   transition: 200ms background-color ease-in-out;
 }
@@ -491,57 +537,58 @@ input[type="radio"] {
 }
 
 footer {
-  border-radius: 50px 50px 0px 0px;
-  position: absolute;
-  top: 94%;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  animation: opacity-animation 100ms ease-in-out 800ms forwards;
 }
 
+@keyframes opacity-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
-.tour-card{
+.tour-card {
   width: min(340px, 90%);
   overflow: hidden;
   box-shadow: 0 0 20px 10px #c2c2c26c;
 }
 
-.tour-card >*{
+.tour-card > * {
   position: relative;
   z-index: 1;
 }
-.tour-card-image-section h1{
-text-transform: uppercase;
-right: 20px;
-font-weight: 300;
-padding:2px 12px;
-text-align: right;
-z-index: 2;
-font-size: 30px;
-color: white;
-position: absolute;
-line-height: 40px;
-background:linear-gradient(to bottom, #01ecb9b4, #3db870);
-bottom: 0;
+.tour-card-image-section h1 {
+  text-transform: uppercase;
+  right: 20px;
+  font-weight: 300;
+  padding: 2px 20px;
+  text-align: right;
+  z-index: 2;
+  font-size: 30px;
+  color: white;
+  position: absolute;
+  line-height: 40px;
+  background: linear-gradient(to bottom, #01ecb9b4, #3db870);
+  bottom: 0;
 }
-.tour-card-image-section :nth-child(2){
+.tour-card-image-section :nth-child(2) {
   bottom: 40px;
   right: 10px;
-  width: 200px;
+  width: min(max-content, 250px);
   text-align: center;
 }
 
-
-
-.tour-card-image-section div::before{
+.tour-card-image-section div::before {
   background-color: var(--bg-color);
   opacity: 0.6;
   position: absolute;
-  content: '';
+  content: "";
   inset: 0;
 }
 
-.tour-card-image-section div::after{
+.tour-card-image-section div::after {
   background: white;
   z-index: 1;
   position: absolute;
@@ -553,7 +600,213 @@ bottom: 0;
   transform: skewY(-4deg);
   content: "";
 }
-.icons-cont img{
+.icons-cont img {
   filter: brightness(0.7);
 }
 
+.all-tour {
+  opacity: 0;
+  animation: fade-in 500ms ease-in-out forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* TOUR DETAIL  */
+.tour-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.tour-hero::before {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background: var(--bg-gradient);
+}
+
+.tour-hero > h1 {
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 3px 20px;
+  z-index: 2;
+  color: white;
+  line-height: 40px;
+  background: linear-gradient(to bottom, #01ecb9b4, #3db870);
+  width: max-content;
+  letter-spacing: 3px;
+  line-height: 60px;
+}
+
+.tour-hero::after {
+  content: "";
+  position: absolute;
+  transform: skewY(-4deg);
+  background: #e6e6e6;
+  inset: 0;
+  top: 93%;
+  height: 200px;
+}
+
+.detail-heading {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  background: linear-gradient(to right, #07ad4d, #049440);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+.overview{
+  font-size: 45px;
+}
+
+@media (width<768px) {
+  .inter-section::after {
+    top: -3%;
+  }
+  .detail-heading {
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+  .overview{
+    font-size: 34px;
+  }
+}
+
+.map{
+  border: 4px solid white;
+  border-radius: 6px;
+}
+
+.start-point{
+  height: 20px;
+  width: 18px;
+  order: 2;
+  transition: 300ms scale ease-in-out;
+}
+.tooltip{
+  opacity: 0;
+  background: #3f3f3f;
+  padding: 3px 6px;
+  border-radius: 2px;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  font-size: 11px;
+  width: max-content;
+  order: 1;
+  align-self: flex-end;
+
+}
+.marker{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+ .start-point:hover + .tooltip {
+  opacity: 1;
+}
+.start-point:hover{
+  scale:1.2;
+  cursor: pointer;
+}
+
+.popup-cont{
+  margin: 0;
+  padding: 1px;
+  height: 20px;
+}
+.popup-cont h3{
+  font-weight: 600;
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  line-height: 10px;
+}
+.popup-cont p{
+  text-align: center;
+  font-size: 10px;
+}
+
+
+.login-form input{
+  border-width: 2px;
+}
+.login-form> button{
+  background-color: #0bc77f;
+}
+.login-form >button:hover{
+  background-color: #089b62d2;
+}
+
+.modal[open]{
+  height: min(460px, 70%);
+  width: min(400px, 90%);
+  top: 100px;
+  z-index: 20;
+  border: 2px solid #383838;
+  overflow-y: auto;
+  animation: fade-in 400ms forwards;
+  --opacity:1
+}
+
+
+.modal[open]::backdrop{
+  background: #030303;
+  animation: fade-in-backdrop 500ms forwards;
+  --opacity:0.6
+}
+
+.modal[data-close]{
+  animation: fade-out 300ms forwards;
+}
+.modal[data-close]::backdrop{
+  animation: fade-out-backdrop 300ms forwards;
+  --opacity:0.6
+}
+
+@keyframes fade-out {
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes fade-out-backdrop {
+  0%{
+    opacity: var(--opacity);
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  0%{
+    opacity: 0;
+    scale:0
+  }
+  100%{
+    scale:1;
+    opacity: var(--opacity)
+  }
+  
+}
+@keyframes fade-in-backdrop {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: var(--opacity);
+  }
+}
